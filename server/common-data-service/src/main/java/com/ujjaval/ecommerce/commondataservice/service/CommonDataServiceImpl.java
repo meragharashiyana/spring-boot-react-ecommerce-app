@@ -24,9 +24,13 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class CommonDataServiceImpl implements CommonDataService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CommonDataServiceImpl.class);
 
     @Autowired
     private ProductInfoRepository productInfoRepository;
@@ -76,6 +80,7 @@ public class CommonDataServiceImpl implements CommonDataService {
 
     @Cacheable(key = "#apiName", value = "mainScreenResponse")
     public MainScreenResponse getHomeScreenData(String apiName) {
+        logger.info("[CACHE] getHomeScreenData called with key: mainScreenResponse::{}", apiName);
 
         List<BrandImages> brandList = brandImagesRepository.getAllData();
         Type listType = new TypeToken<List<BrandImagesDTO>>() {
@@ -94,6 +99,7 @@ public class CommonDataServiceImpl implements CommonDataService {
 
     @Cacheable(key = "#queryParams", value = "filterAttributesResponse")
     public FilterAttributesResponse getFilterAttributesByProducts(String queryParams) {
+        logger.info("[CACHE] getFilterAttributesByProducts called with key: filterAttributesResponse::{}", queryParams);
         HashMap<String, String> conditionMap = getConditionMapFromQuery(queryParams);
 
         if (conditionMap != null && !conditionMap.isEmpty()) {
@@ -106,6 +112,7 @@ public class CommonDataServiceImpl implements CommonDataService {
 
     @Cacheable(key = "#queryParams", value = "productInfoDTO")
     public ProductInfoDTO getProductsByCategories(String queryParams) {
+        logger.info("[CACHE] getProductsByCategories called with key: productInfoDTO::{}", queryParams);
 
         HashMap<String, String> conditionMap = getConditionMapFromQuery(queryParams);
         ProductInfoDTO productInfoDTO = null;
@@ -122,6 +129,7 @@ public class CommonDataServiceImpl implements CommonDataService {
 
     @Cacheable(key = "#queryParams", value = "hashMap")
     public HashMap<Integer, ProductInfo> getProductsById(String queryParams) {
+        logger.info("[CACHE] getProductsById called with key: hashMap::{}", queryParams);
 
         String[] productIds = queryParams.split(",");
         HashMap<Integer, ProductInfo> resultMap = null;
@@ -142,6 +150,7 @@ public class CommonDataServiceImpl implements CommonDataService {
 
     @Cacheable(key = "#apiName", value = "homeTabsDataResponse")
     public HomeTabsDataResponse getBrandsAndApparelsByGender(String apiName) {
+        logger.info("[CACHE] getBrandsAndApparelsByGender called with key: homeTabsDataResponse::{}", apiName);
         return productInfoRepository.getBrandsAndApparelsByGender();
     }
 

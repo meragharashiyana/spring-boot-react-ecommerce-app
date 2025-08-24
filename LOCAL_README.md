@@ -43,6 +43,7 @@ Start Redis locally on port `6379` with password `mypass`.
     #   port 6379
     #   requirepass mypass
     ./redis-server.exe --service-install .\redis.windows.conf --service-name Redis
+    .\redis-server.exe .\redis.windows.conf --port 6379 --requirepass mypass
     ./redis-server.exe --service-start --service-name Redis
     ```
 
@@ -60,6 +61,7 @@ Start Redis locally on port `6379` with password `mypass`.
         127.0.0.1:6379> KEYS *
         127.0.0.1:6379> GET somekey
         127.0.0.1:6379> INFO
+        127.0.0.1:6379> FLUSHALL --> To flush
 
 ### 4) Backend Services (PowerShell)
 Run each service in its own PowerShell window from the project root.
